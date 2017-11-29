@@ -35,7 +35,7 @@ export default {
       editBox: null,
       prettyBox: null,
       // value: this.data,
-      tabindex: 0,
+      // tabindex: 0,
       rows: 5,
     };
   },
@@ -48,6 +48,9 @@ export default {
       set(newValue) {
         this.data = newValue;
       },
+    },
+    tabindex() {
+      return this.editing ? NO_TABBING : NORMAL_TABBING;
     },
   },
   methods: {
