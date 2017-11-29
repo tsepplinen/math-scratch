@@ -1,5 +1,5 @@
 <template>
-  <button class="add-button" @click="addScope('1+1')">
+  <button class="add-button" @click="addNewScope">
       Add a box
   </button>
 </template>
@@ -17,6 +17,11 @@ export default {
   },
   methods: {
     ...mapActions(['addScope']),
+    addNewScope() {
+      this.addScope('1+1');
+      const scopes = this.$store.state.scopes;
+      console.log(scopes[scopes.length - 1]);
+    },
   },
 };
 

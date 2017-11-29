@@ -1,16 +1,21 @@
 <template>
-<div class="scope" :tabindex="tabindex"
-      v-on:focus="handleFocus"
-      @click="handleFocus">
-  <textarea class="edit" 
-        v-show="editing"
-        v-on:blur="handleBlur"
-        v-model="internalData"
-  />
-  <div class="pretty"
-    tabindex="-1"
-    v-show="!editing"
-  >``</div>
+<div>
+  <div class="scope" :tabindex="tabindex"
+        v-on:focus="handleFocus"
+        @click="handleFocus">
+    <textarea class="edit" 
+          v-show="editing"
+          v-on:blur="handleBlur"
+          v-model="internalData"
+          :rows="rows"
+          @keyup.enter="updateRows"
+          @keyup.delete="updateRows"
+    />
+    <div class="pretty"
+      tabindex="-1"
+      v-show="!editing"
+    >``</div>
+  </div>
 </div>
 </template>
 
@@ -31,6 +36,7 @@ export default {
       prettyBox: null,
       value: this.data,
       tabindex: 0,
+      rows: 5,
     };
   },
   props: ['data', 'index'],
@@ -74,13 +80,30 @@ export default {
     show() {
       this.editing = false;
     },
+    focus() {
+      this.editing = true;
+      this.focused = false;
+    },
+    updateRows() {
+      const matches = this.internalData.match(/\n/g);
+      let rows;
+      if (matches) {
+        rows = matches.length + 2;
+        this.rows = Math.max(rows, 2);
+      } else {
+        this.rows = 2;
+      }
+    },
   },
   mounted() {
     this.editBox = this.$el.querySelector('.edit');
+    this.updateRows();
     this.prettyBox = this.$el.querySelector('.pretty');
     this.prettyBox.innerHTML = '`#`'.replace('#', this.data);
     window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, this.prettyBox]);
     window.MathJax.Hub.Queue(() => this.show());
+    window.MathJax.Hub.Queue(() => this.updateRows());
+    window.MathJax.Hub.Queue(() => this.focus());
   },
   updated() {
     if (this.editing && !this.focused) {
@@ -90,16 +113,7 @@ export default {
   },
 };
 
-// function onFocus() {
-//     console.log("focus")
-//     editti.innerHTML = savedData;
-// }
-
 // function onBlur() {
-//     console.log("blur")
-//     savedData = editti.innerHTML;
-//     editti.innerHTML = "`" + editti.innerHTML + "`";
-//     MathJax.Hub.Queue(["Typeset", MathJax.Hub, editti]);
 
 //     tulos.innerHTML = "`= " + math.eval(savedData, scope) + "`";
 //     MathJax.Hub.Queue(["Typeset", MathJax.Hub, tulos]);
@@ -109,11 +123,6 @@ export default {
 // }
 // let scope = {};
 // let tulos = document.getElementById("tulos");
-// let savedData = "K = 1/5";
-// let editti = document.getElementById("editti");
-// editti.innerHTML = savedData;
-// editti.addEventListener("focus", onFocus);
-// editti.addEventListener("blur", onBlur);
 
 </script>
 
@@ -128,12 +137,14 @@ export default {
   
   textarea.edit {
     width: 100%;
-    height: 100%;
+    height: auto;
     border: none;
     resize: none;
     padding: 0;
     margin: 0;  
     text-align: center;
+    line-height: 2;
+    overflow: hidden;
   }
 
   textarea.edit:focus {
