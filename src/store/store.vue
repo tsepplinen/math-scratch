@@ -38,7 +38,7 @@ const mutations = {
   },
   removeScope(store, payload) {
     const index = payload.index;
-    Vue.set(store.scopes, index, {});
+    Vue.delete(store.scopes, index);
   },
 };
 

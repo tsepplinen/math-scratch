@@ -54,10 +54,15 @@ export default {
     ...mapActions(['editScope', 'removeScope']),
     handleBlur() {
       this.value = this.value.trim();
-      const math = this.value;
-      this.tabindex = NORMAL_TABBING;
-      this.prettifyMath(math);
-      this.updateRows();
+
+      if (this.value.length === 0) {
+        this.removeScope({ index: this.index });
+      } else {
+        const math = this.value;
+        this.tabindex = NORMAL_TABBING;
+        this.prettifyMath(math);
+        this.updateRows();
+      }
     },
     prettifyMath(math) {
       const jaxFromPretty = window.MathJax.Hub.getAllJax(this.prettyBox)[0];
