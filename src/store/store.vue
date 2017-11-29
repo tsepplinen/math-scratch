@@ -22,6 +22,9 @@ const actions = {
   editScope: ({ commit }, payload) => {
     commit('editScope', payload);
   },
+  removeScope: ({ commit }, payload) => {
+    commit('removeScope', payload);
+  },
 };
 
 const mutations = {
@@ -32,6 +35,10 @@ const mutations = {
     const index = payload.index;
     const data = payload.data;
     Vue.set(store.scopes, index, { data });
+  },
+  removeScope(store, payload) {
+    const index = payload.index;
+    Vue.set(store.scopes, index, {});
   },
 };
 
