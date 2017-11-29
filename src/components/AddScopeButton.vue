@@ -1,0 +1,30 @@
+<template>
+  <button class="add-button" @click="addScope('1+1')">
+      Add a box
+  </button>
+</template>
+
+<script>
+
+import { mapActions } from 'vuex';
+
+export default {
+  name: 'AddScopeButton',
+  data() {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+    };
+  },
+  methods: {
+    ...mapActions(['addScope']),
+  },
+};
+
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .add-button {
+    background: mediumspringgreen;
+  }
+</style>
