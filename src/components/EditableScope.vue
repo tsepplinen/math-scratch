@@ -1,6 +1,7 @@
 <template>
 <div class="scope" :tabindex="tabindex"
-      v-on:focus="handleFocus">
+      v-on:focus="handleFocus"
+      @click="handleFocus">
   <textarea class="edit" 
         v-show="editing"
         v-on:blur="handleBlur"
