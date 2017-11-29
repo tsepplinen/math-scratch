@@ -34,8 +34,7 @@ export default {
       focused: false,
       editBox: null,
       prettyBox: null,
-      // value: this.data,
-      // tabindex: 0,
+      value: this.data,
       rows: 5,
     };
   },
@@ -46,7 +45,7 @@ export default {
         return this.data;
       },
       set(newValue) {
-        this.data = newValue;
+        this.value = newValue;
       },
     },
     tabindex() {
@@ -56,13 +55,12 @@ export default {
   methods: {
     ...mapActions(['editScope', 'removeScope']),
     handleBlur() {
-      this.internalData = this.internalData.trim();
+      this.value = this.value.trim();
 
-      if (this.internalData.length === 0) {
+      if (this.value.length === 0) {
         this.removeScope({ index: this.index });
       } else {
-        const math = this.internalData;
-        this.tabindex = NORMAL_TABBING;
+        const math = this.value;
         this.prettifyMath(math);
         this.updateRows();
       }
@@ -82,7 +80,6 @@ export default {
     },
     handleFocus() {
       this.editing = true;
-      this.tabindex = NO_TABBING;
     },
     displayContent() {
       return this.data;
@@ -120,6 +117,7 @@ export default {
       this.focused = true;
       this.editBox.focus();
     }
+    this.value = this.internalData;
   },
 };
 
