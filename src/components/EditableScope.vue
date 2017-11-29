@@ -34,7 +34,7 @@ export default {
       focused: false,
       editBox: null,
       prettyBox: null,
-      value: this.data,
+      // value: this.data,
       tabindex: 0,
       rows: 5,
     };
@@ -43,22 +43,22 @@ export default {
   computed: {
     internalData: {
       get() {
-        return this.value;
+        return this.data;
       },
       set(newValue) {
-        this.value = newValue;
+        this.data = newValue;
       },
     },
   },
   methods: {
     ...mapActions(['editScope', 'removeScope']),
     handleBlur() {
-      this.value = this.value.trim();
+      this.internalData = this.internalData.trim();
 
-      if (this.value.length === 0) {
+      if (this.internalData.length === 0) {
         this.removeScope({ index: this.index });
       } else {
-        const math = this.value;
+        const math = this.internalData;
         this.tabindex = NORMAL_TABBING;
         this.prettifyMath(math);
         this.updateRows();
