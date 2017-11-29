@@ -51,11 +51,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['editScope']),
+    ...mapActions(['editScope', 'removeScope']),
     handleBlur() {
+      this.value = this.value.trim();
       const math = this.value;
       this.tabindex = NORMAL_TABBING;
       this.prettifyMath(math);
+      this.updateRows();
     },
     prettifyMath(math) {
       const jaxFromPretty = window.MathJax.Hub.getAllJax(this.prettyBox)[0];
