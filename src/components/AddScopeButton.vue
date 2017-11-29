@@ -19,8 +19,6 @@ export default {
     ...mapActions(['addScope']),
     addNewScope() {
       this.addScope('1+1');
-      const scopes = this.$store.state.scopes;
-      console.log(scopes[scopes.length - 1]);
     },
   },
 };
