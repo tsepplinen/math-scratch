@@ -35,14 +35,14 @@ export default {
       editBox: null,
       prettyBox: null,
       value: this.data,
-      rows: 5,
+      rows: 2,
     };
   },
   props: ['data', 'index'],
   computed: {
     internalData: {
       get() {
-        return this.data;
+        return this.value;
       },
       set(newValue) {
         this.value = newValue;
@@ -50,6 +50,13 @@ export default {
     },
     tabindex() {
       return this.editing ? NO_TABBING : NORMAL_TABBING;
+    },
+  },
+  watch: {
+    data() {
+      this.value = this.data;
+      this.updateRows();
+      this.prettifyMath(this.value);
     },
   },
   methods: {
@@ -92,7 +99,7 @@ export default {
       this.focused = false;
     },
     updateRows() {
-      const matches = this.internalData.match(/\n/g);
+      const matches = this.value.match(/\n/g);
       let rows;
       if (matches) {
         rows = matches.length + 2;
@@ -117,7 +124,6 @@ export default {
       this.focused = true;
       this.editBox.focus();
     }
-    this.value = this.internalData;
   },
 };
 
